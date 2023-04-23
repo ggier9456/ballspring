@@ -8,15 +8,11 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <!-- 載入babel編譯器套件 -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css' )}}">
-    <link rel="stylesheet" type="text/css" href="../static/css/list.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css' )}}">
-    <link rel="stylesheet" type="text/css" href="../static/css/signfooter.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signfooter.css' )}}">
-    <link rel="stylesheet" type="text/css" href="../static/css/car.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/car.css' )}}">
-    <title>Ballring購物車2</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/list.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/car.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/signfooter.css}">
+    <title>Ballring購物車</title>
     <script type="text/babel">
         class Search_del extends React.Component{ //此class為刪除搜尋欄中輸入文字的按鈕功能
             constructor(props){
@@ -59,17 +55,13 @@
 </head>
 <body>
     <div class="top">
-        <a href="/" class="logo"><img src="../static/pic/logo.png"></a>
-        {%if data%}
-        <div class="logout">
+        <a href="/" class="logo"><img th:src="@{/pic/logo.png}"></a>
+        <div class="logout" th:if="${session.user != null}">
             <a href="/signout"><p>登出</p><ion-icon name="log-out-outline"></ion-icon></a>
         </div>
-        </form>
-        {%else%}
         <div class="member" style="display: none;">
             <ion-icon name="person-outline"></ion-icon>
         </div>
-        {%endif%}
         <div class="member">
             <a href="/member"><ion-icon name="person-outline"></ion-icon></a>
         </div>
@@ -83,8 +75,7 @@
             <div class="car_form">
                 <h2>購物車</h2>
                 <hr/>
-                {% if items%}
-                <table class="car_table">
+                <table class="car_table" th:if="${carList != null}">
                     <tr class="car_item">
                         <th width="50px">序號</th>
                         <th width="100px">商品圖片</th>
@@ -94,29 +85,25 @@
                         <th width="80px">小計</th>
                         <th width="80px">功能</th>
                     </tr>
-                    {%for i in items%}
-                    <tr class="car_item"> 
-                        <td>{{i.p_id}}</td>
-                        <td><img src={{i.img}} class="p_img"></td>
-                        <td>{{i.name}}</td>
-                        <td>{{i.price}}</td>
-                        <td>{{i.amount}}</td>
-                        <td>{{i.total}}</td>
-                        <td><form action="/del_car", method="post"><input type="submit" name="del_item" value="刪除"><input type="hidden" value={{i.c_id}} name="id"></form></td>
+                    <tr class="car_item" th:each="car,index:${carList}">
+                        <td th:text="${index.count}"></td>
+                        <td><img th:src="${car.pImg}" class="p_img"></td>
+                        <td th:text="${car.pName}"></td>
+                        <td th:text="${car.pPrice}"></td>
+                        <td th:text="${car.amount}"></td>
+                        <td th:text="${car.pPrice} * ${car.amount}"></td>
+                        <td><form th:action="@{/car/{id}(id = ${car.cId})}", th:method="DELETE"><input type="submit" name="del_item" value="刪除"><input type="hidden" th:value="${car.cId}" name="id"></form></td>
                     </tr>
-                    {%endfor%}
                     </table>
-                {%else%}
-                <table class="car_none">
-                    <thead >
+                <table class="car_none" th:if="${carList == null}">
+                    <thead>
                         <tr>
                             <td>尚未選擇商品 購物車為空!</td>
                         </tr>
                     </thead>
                 </table>
-                {%endif%}
                 <hr/>
-                <div class="total">總計:{{total_price}}元</div>
+                <div class="total">總計:<span th:text="${totalPrice}"></span>元</div>
                 <form action="send_car", method="post">
                     <input type="submit" value="送出訂單" name="send_car" class="send_button">
                 </form>
