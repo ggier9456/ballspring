@@ -2,7 +2,7 @@ package com.example.ballspring.dao.impl;
 
 import com.example.ballspring.dao.PurchasePageDao;
 import com.example.ballspring.mapper.PurchasePageRowMapper;
-import com.example.ballspring.model.BallType;
+import com.example.ballspring.dao.BallType;
 import com.example.ballspring.model.PurchasePage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

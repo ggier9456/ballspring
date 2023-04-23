@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,12 +8,15 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <!-- 載入babel編譯器套件 -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/list.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/production.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/signfooter.css}">
-
-    <title>商品購買頁面</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css' )}}">
+    <link rel="stylesheet" type="text/css" href="../static/css/list.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/list.css' )}}">
+    <link rel="stylesheet" type="text/css" href="../static/css/signfooter.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signfooter.css' )}}">
+    <link rel="stylesheet" type="text/css" href="../static/css/car.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/car.css' )}}">
+    <title>Ballring購物車2</title>
     <script type="text/babel">
         class Search_del extends React.Component{ //此class為刪除搜尋欄中輸入文字的按鈕功能
             constructor(props){
@@ -57,10 +59,17 @@
 </head>
 <body>
     <div class="top">
-        <a href="/" class="logo"><img th:src="@{/pic/logo.png}"></a>
-        <div class="logout" th:if="${session.user != null}">
+        <a href="/" class="logo"><img src="../static/pic/logo.png"></a>
+        {%if data%}
+        <div class="logout">
             <a href="/signout"><p>登出</p><ion-icon name="log-out-outline"></ion-icon></a>
         </div>
+        </form>
+        {%else%}
+        <div class="member" style="display: none;">
+            <ion-icon name="person-outline"></ion-icon>
+        </div>
+        {%endif%}
         <div class="member">
             <a href="/member"><ion-icon name="person-outline"></ion-icon></a>
         </div>
@@ -69,53 +78,51 @@
         </div>
         <div class="react1"></div>
     </div>
-    <div class="top_block"></div>
-    <ul class="menu">
-        <li class="list-1"><a ><img th:src="@{/icon/basketball.png}" class="basketball_icon"/>籃球</div></a>
-            <ul class="list-2">
-                <li><a href="/commodity/ball7">男生籃球(7號球)</a></li>
-                <li><a href="/commodity/ball6">女生籃球(6號球)</a></li>
-            </ul>
-        </li>
-        <li class="list-1"><a><img th:src="@{/icon/soccer.png}" class="soccer_icon"/>足球</a>
-            <ul class="list-2">
-                <li><a href="/commodity/sc5">5號足球</a></li>
-                <li><a href="/commodity/sc4">4號足球</a></li>
-                <li><a href="/commodity/sc3">3號足球</a></li>
-            </ul>
-        </li>
-        <li class="list-1"><a><img th:src="@{/icon/volleyball.png}" class="volleyball_icon"/>排球</a>
-            <ul class="list-2">
-                <li><a href="/commodity/vb1">FIVB指定球</a></li>
-                <li><a href="/commodity/vb2">橡膠排球</a></li>
-            </ul>
-        </li>
-    </ul>
-    <div class="product_box">
-        <div class="product">
-            <div class="production"><img th:src="${pList.pImg}" class="product_img"></div>
-            <div class="product_item">
-                <h2 th:text="${pList.pName}">超細纖維PU16片專利貼皮籃球(6號球)</h2>
-                <p th:text="${pList.pDescription}"></p>
-                <h2>網購價:<span>$<span  th:text="${pList.pPrice}"></span></span></h2>
-                <form action="/addToCar", method="post">
-                    <div class="form_select" >
-                            <span>數量:</span>
-                        <select name="p_amount">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select><br/>
-                    </div>
-                    <input type="hidden" th:value="${pList.pId}" name="id">
-                    <div class="production_buttons">
-                        <input type="submit" value="立即購買" name="quick_buy" class="quick_button">
-                        <input type="submit" value="放入購物車" name="send_car" class="car_button">
-                    </div>
+    <div class="car-box">
+        <div class="car">
+            <div class="car_form">
+                <h2>購物車</h2>
+                <hr/>
+                {% if items%}
+                <table class="car_table">
+                    <tr class="car_item">
+                        <th width="50px">序號</th>
+                        <th width="100px">商品圖片</th>
+                        <th>商品名稱</th>
+                        <th width="80px">單價</th>
+                        <th width="80px">數量</th>
+                        <th width="80px">小計</th>
+                        <th width="80px">功能</th>
+                    </tr>
+                    {%for i in items%}
+                    <tr class="car_item"> 
+                        <td>{{i.p_id}}</td>
+                        <td><img src={{i.img}} class="p_img"></td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.amount}}</td>
+                        <td>{{i.total}}</td>
+                        <td><form action="/del_car", method="post"><input type="submit" name="del_item" value="刪除"><input type="hidden" value={{i.c_id}} name="id"></form></td>
+                    </tr>
+                    {%endfor%}
+                    </table>
+                {%else%}
+                <table class="car_none">
+                    <thead >
+                        <tr>
+                            <td>尚未選擇商品 購物車為空!</td>
+                        </tr>
+                    </thead>
+                </table>
+                {%endif%}
+                <hr/>
+                <div class="total">總計:{{total_price}}元</div>
+                <form action="send_car", method="post">
+                    <input type="submit" value="送出訂單" name="send_car" class="send_button">
                 </form>
-                
             </div>
         </div>
+    </div>
     </div>
     <footer class="footer">
         <div class="footer_text"><p>Copyright © 2023 Xun-Kai</p></div>

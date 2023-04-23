@@ -5,5 +5,5 @@ import com.example.ballspring.model.Product;
 import java.util.List;
 
 public interface ProductDao {
-    public List<Product> getPitem(String bType);
+    List<Product> getPitem(String bType);
 }

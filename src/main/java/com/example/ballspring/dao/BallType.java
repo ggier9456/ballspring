@@ -1,4 +1,4 @@
-package com.example.ballspring.model;
+package com.example.ballspring.dao;
 
 public class BallType {
     private String bType;

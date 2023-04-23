@@ -83,7 +83,7 @@ public class UserController {
         return "redirect:/";
     }
     @GetMapping("/member")
-    public String member(@SessionAttribute("user") User user, Model model){
+    public String member(@SessionAttribute(name="user",  required=false) User user, Model model){
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
 
         if(user != null){

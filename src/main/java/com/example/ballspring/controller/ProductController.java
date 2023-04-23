@@ -1,7 +1,7 @@
 package com.example.ballspring.controller;
 
 
-import com.example.ballspring.model.BallType;
+import com.example.ballspring.dao.BallType;
 import com.example.ballspring.model.Product;
 import com.example.ballspring.model.PurchasePage;
 import com.example.ballspring.service.ProductService;
@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
