@@ -41,8 +41,6 @@ public class ProductController {
         BallType ballType =new BallType();
         ballType.setbId(bId);
         ballType.setbType(bType);
-        System.out.println(ballType.getbType());
-        System.out.println(ballType.getbId());
         List<PurchasePage> list = purchasePageService.getPpage(ballType);
         model.addAttribute("pList", list.get(0));
         return "/goods/purchase";

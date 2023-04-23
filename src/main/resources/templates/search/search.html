@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,10 +10,9 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/list.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/production.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/search.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/signfooter.css}">
-
-    <title>商品購買頁面</title>
+    <title>Ballring購物車</title>
     <script type="text/babel">
         class Search_del extends React.Component{ //此class為刪除搜尋欄中輸入文字的按鈕功能
             constructor(props){
@@ -69,53 +67,35 @@
         </div>
         <div class="react1"></div>
     </div>
-    <div class="top_block"></div>
-    <ul class="menu">
-        <li class="list-1"><a ><img th:src="@{/icon/basketball.png}" class="basketball_icon"/>籃球</div></a>
-            <ul class="list-2">
-                <li><a href="/commodity/ball7">男生籃球(7號球)</a></li>
-                <li><a href="/commodity/ball6">女生籃球(6號球)</a></li>
-            </ul>
-        </li>
-        <li class="list-1"><a><img th:src="@{/icon/soccer.png}" class="soccer_icon"/>足球</a>
-            <ul class="list-2">
-                <li><a href="/commodity/sc5">5號足球</a></li>
-                <li><a href="/commodity/sc4">4號足球</a></li>
-                <li><a href="/commodity/sc3">3號足球</a></li>
-            </ul>
-        </li>
-        <li class="list-1"><a><img th:src="@{/icon/volleyball.png}" class="volleyball_icon"/>排球</a>
-            <ul class="list-2">
-                <li><a href="/commodity/vb1">FIVB指定球</a></li>
-                <li><a href="/commodity/vb2">橡膠排球</a></li>
-            </ul>
-        </li>
-    </ul>
-    <div class="product_box">
-        <div class="product">
-            <div class="production"><img th:src="${pList.pImg}" class="product_img"></div>
-            <div class="product_item">
-                <h2 th:text="${pList.pName}">超細纖維PU16片專利貼皮籃球(6號球)</h2>
-                <p th:utext="${pList.pDescription}"></p>
-                <h2>網購價:<span>$<span  th:text="${pList.pPrice}"></span></span></h2>
-                <form action="/addToCar", method="post">
-                    <div class="form_select" >
-                            <span>數量:</span>
-                        <select name="p_amount">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select><br/>
-                    </div>
-                    <input type="hidden" th:value="${pList.pId}" name="id">
-                    <div class="production_buttons">
-                        <input type="submit" value="立即購買" name="quick_buy" class="quick_button">
-                        <input type="submit" value="放入購物車" name="send_car" class="car_button">
-                    </div>
-                </form>
-                
+    <div class="search-bbox">
+        <div class="search-box">
+            <div class="search_form">
+                <h2>搜尋結果</h2>
+                <hr/>
+
+                <table class="search_table" th:if="${searchList != null}">
+                    <tr class="search_item">
+                        <th width="50px">序號</th>
+                        <th width="100px">商品圖片</th>
+                        <th>商品名稱</th>
+                    </tr>
+                    <tr class="search_item" th:each="search, index:${searchList}">
+                        <td th:text="${index.count}"></td>
+                        <td><img th:src="${search.pImg}" class="p_img"></td>
+                        <td><a th:href="${search.pLink}"><div th:text="${search.pName}"></div></a></td>
+                    </tr>
+                    </table>
+                <table class="search_none" th:if="${searchList == null}">
+                    <thead >
+                        <tr>
+                            <td>查無搜尋資料!</td>
+                        </tr>
+                    </thead>
+                </table>
+                <hr/>
             </div>
         </div>
+    </div>
     </div>
     <footer class="footer">
         <div class="footer_text"><p>Copyright © 2023 Xun-Kai</p></div>
@@ -124,6 +104,11 @@
             <a href="https://www.instagram.com/gugi_gugi333/"><ion-icon name="logo-instagram"></ion-icon></a>
         </div>
     </footer>
+    <script>
+        document.body.innerHTML = document.body.innerHTML.replace(/{{s_item}}/ig, "<span style='color:red;'>$&</span>");
+    </script> 
+    <!-- 將搜尋的字串變為紅色 -->
+
         
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

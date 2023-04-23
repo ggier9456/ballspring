@@ -25,7 +25,7 @@
                 if(this.state.text!==""){
                     display='block'; //將x按鈕在搜尋欄有輸入時顯示出來
                 }
-                return <form action="/search" method="post" className="searchbox">
+                return <form action="/search" method="GET" className="searchbox">
                     <ion-icon name="search-outline"></ion-icon>
                     <input type="text" name="search_name" placeholder="搜尋" value={this.state.text} onChange={this.getData.bind(this)} className="search"/> 
                     <div class="search_clear">
