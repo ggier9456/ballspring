@@ -73,4 +73,19 @@ public class CarController {
         return "/car/car";
     }
 
+    @PostMapping("/send_car")
+    public String sendCar(@SessionAttribute(name="user", required = false) User user,
+                          Model model){
+        List<Car> list = carService.getCar(user.getUsername());
+        if(list != null){
+            carService.sendCar(user.getUsername());
+            return "/car/send_car_ok";
+        }else{
+            model.addAttribute("noCar", "尚未將商品放入購物車，無法送出！");
+            return "/car/car";
+        }
+
+    }
+
+
 }

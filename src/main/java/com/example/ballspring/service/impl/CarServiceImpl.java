@@ -45,4 +45,9 @@ public class CarServiceImpl implements CarService {
     public String delCar(Integer cId) {
         return carDao.delCar(cId);
     }
+
+    @Override
+    public String sendCar(String username) {
+        return carDao.sendCar(username);
+    }
 }

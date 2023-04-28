@@ -12,4 +12,6 @@ public interface CarDao {
     List<Car> getCar(String username);
 
     String delCar(Integer c_id);
+
+    String sendCar(String username);
 }

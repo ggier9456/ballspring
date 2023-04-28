@@ -48,4 +48,13 @@ public class CarDaoImpl implements CarDao {
         namedParameterJdbcTemplate.update(sql, map);
         return "ok";
     }
+
+    @Override
+    public String sendCar(String username){
+        String sql = "CALL send_car(:username)";
+        Map<String, String> map = new HashMap<>();
+        map.put("username", username);
+        namedParameterJdbcTemplate.update(sql, map);
+        return "ok";
+    }
 }

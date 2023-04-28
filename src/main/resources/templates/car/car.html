@@ -107,6 +107,7 @@
                 <form action="send_car", method="post">
                     <input type="submit" value="送出訂單" name="send_car" class="send_button">
                 </form>
+                <div th:if="${noCar != null}" th:text="${noCar}" style="color: red;"></div>
             </div>
         </div>
     </div>

@@ -15,4 +15,6 @@ public interface CarService {
     Integer getTotalPrive(List<Car> list);
 
     String delCar(Integer cId);
+
+    String sendCar(String username);
 }

@@ -87,8 +87,6 @@ public class UserController {
         UserRegisterRequest userRegisterRequest = new UserRegisterRequest();
 
         if(user != null){
-            userRegisterRequest.setUsername(user.getUsername());
-            user = userService.getMember(userRegisterRequest);
             model.addAttribute("username", user.getUsername());
             model.addAttribute("email", user.getEmail());
             return "/user/member";
